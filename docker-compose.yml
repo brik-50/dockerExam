@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: testdb
+    networks:
+      - network1
+    ports:
+      - "3306:3306"
+    volumes:
+      - ${PWD}/mysql_data:/var/lib/mysql
+    container_name: mysql
+
+  serverBackend:
+    image: makouz/tuto_backend:1.0.0
+    networks:
+      - network1
+    ports:
+      - "8080:2222"
+    container_name: serverBackend
+
+  serverFrontend:
+    image: makouz/tuto_front:1.0.0
+    networks:
+      - network1
+    ports:
+      - "8088:80"
+    container_name: serverFrontend
+
+networks:
+  network1:
+    driver: bridge
