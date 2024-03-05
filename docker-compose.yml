@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_DATABASE: testdb
+    volumes:
+      - C:\Users\omare\Desktop:/var/lib/mysql
+    networks:
+      - mon_reseau
+
+  back_end_container:
+    image: makouz/tuto_backend:1.0.0
+    ports:
+      - "8080:2222"
+    networks:
+      - mon_reseau
+    depends_on:
+      - mysql
+
+  front_end_container:
+    image: makouz/tuto_front:1.0.0
+    ports:
+      - "8088:80"
+    networks:
+      - mon_reseau
+    
+
+networks:
+  mon_reseau:
+    external: true
