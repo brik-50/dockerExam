@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3005:3000"
+
+  mysql:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_ROOT_PASSWORD: "0000"
+      MYSQL_DATABASE: "testdb"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  backend:
+    image: makouz/tuto_backend:1.0.0
+    ports:
+      - "2222:8080"
+    networks:
+      - my_network
+
+  frontend:
+    image: makouz/tuto_front:1.0.0
+    ports:
+      - "8088:80"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+
+volumes:
+  mysql_data:
