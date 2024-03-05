@@ -1,0 +1,35 @@
+services :
+  mysql :
+    image: mysql:8.0.28
+    environment:
+      MYSQL_ROOT_PASSWORD : root
+      MYSQL_DATABASE : testdb
+    networks:
+      - exam
+    volumes:
+      - sqlstore:/var/lib/mysql
+  backend:
+    depends_on:
+      - mysql
+    image: makouz/tuto_backend:1.0.0
+    ports:
+      - "8080:2222"
+    networks:
+      - exam
+  front:
+    depends_on:
+      - backend
+    image: makouz/tuto_front:1.0.0
+    ports:
+      - "8088:80"
+    networks:
+      - exam
+
+networks:
+  exam:
+    driver: bridge
+
+volumes:
+  sqlstore:
+
+
