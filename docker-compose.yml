@@ -1,0 +1,30 @@
+version: '1'
+
+services:
+  mysql:
+    image: mysql:8.0.28
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: testdb
+    volumes:
+      - /home/oussen/Public/mysql-data:/var/lib/mysql
+
+  backend:
+    image: makouz/tuto_backend:1.0.0
+    container_name: backend-container
+    networks:
+      - netw
+    ports:
+      - "2222:8088"
+    
+  front:
+    image: makouz/tuto_front:1.0.0
+    container_name: front-container
+    networks:
+      - netw
+    ports:
+      - "8088:80"
+    
+networks:
+  netw:
+    driver: bridge
